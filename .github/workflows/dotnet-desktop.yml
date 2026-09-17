@@ -1,23 +1,37 @@
-name: .NET Build
+name: .NET 10 Build
 
 on:
   push:
-    branches: [ "main" ]
+    branches: [ main ]
   pull_request:
-    branches: [ "main" ]
+    branches: [ main ]
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-latest # Используем последнюю доступную Ubuntu
+
     steps:
-      - uses: actions/checkout@v4
-      - name: Setup .NET
-        uses: actions/setup-dotnet@v4
-        with:
-          dotnet-version: '9.0.x'
-      - name: Restore dependencies
-        run: dotnet restore
-      - name: Build
-        run: dotnet build --no-restore --configuration Release
-      - name: Test
-        run: dotnet test --no-build --configuration Release
+    - uses: actions/checkout@v4
+
+    # Главный шаг: установка превью-версии SDK
+    - name: Setup .NET 10 Preview
+      uses: actions/setup-dotnet@v4
+      with:
+        # Указываем мажорную версию. 
+        # Инструмент сам найдет последний доступный preview/стабильный билд этой ветки.
+        dotnet-version: '10.0.100' 
+        
+        # Если нужен конкретный номер превью (например, RC1):
+        # dotnet-version: '10.0.100-rc.1.25451.14'
+        
+        # Добавь этот флаг, если используешь публичные preview-сервера NuGet
+        include-prerelease: true 
+
+    - name: Restore dependencies
+      run: dotnet restore
+
+    - name: Build
+      run: dotnet build --configuration Release --no-restore
+
+    - name: Test
+      run: dotnet test --configuration Release --no-build --verbosity normal
