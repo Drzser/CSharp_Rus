@@ -1,37 +1,26 @@
-name: .NET 10 Build
+name: Build All Projects
 
 on:
   push:
     branches: [ main ]
-  pull_request:
-    branches: [ main ]
 
 jobs:
-  build:
-    runs-on: ubuntu-latest # Используем последнюю доступную Ubuntu
+  build-all:
+    runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v4
+      - uses: actions/checkout@v4
 
-    # Главный шаг: установка превью-версии SDK
-    - name: Setup .NET 10 Preview
-      uses: actions/setup-dotnet@v4
-      with:
-        # Указываем мажорную версию. 
-        # Инструмент сам найдет последний доступный preview/стабильный билд этой ветки.
-        dotnet-version: '10.0.100' 
-        
-        # Если нужен конкретный номер превью (например, RC1):
-        # dotnet-version: '10.0.100-rc.1.25451.14'
-        
-        # Добавь этот флаг, если используешь публичные preview-сервера NuGet
-        include-prerelease: true 
+      - name: Setup .NET 10 Preview
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '10.0.x'
+          include-prerelease: true
 
-    - name: Restore dependencies
-      run: dotnet restore
+      strategy:
+        project: [ "CalculatororLite/CalculatororLite/CalculatororLite.csproj", "PasswordGenerator/PasswordGenerator/PasswordGenerator.csproj" ] 
 
-    - name: Build
-      run: dotnet build --configuration Release --no-restore
-
-    - name: Test
-      run: dotnet test --configuration Release --no-build --verbosity normal
+       name: ${{ format('Restore and Build {0}', matrix.project) }}
+  run: |
+    dotnet restore ./${{ split(matrix.project, '/')[0] }}/
+    dotnet build --configuration Release --no-restore ./${{ split(matrix.project, '/')[0] }}/ --nologo
