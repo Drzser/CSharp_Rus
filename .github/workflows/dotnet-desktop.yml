@@ -8,23 +8,21 @@ jobs:
   build-all:
     runs-on: ubuntu-latest
 
+    strategy: 
+     matrix: 
+      project: [ 
+            "CalculatorLite/CalculatorLite.csproj", 
+          "PasswordGenerator/PasswordGenerator.csproj" 
+        ]   
+
     steps:
       - uses: actions/checkout@v4
 
-      - name: Setup .NET 10 Preview
+      - name: Setup .NET 10 Release
         uses: actions/setup-dotnet@v4
         with:
-          dotnet-version: '10.0.x'
-          include-prerelease: true
-
-      strategy: 
-        matrix: 
-        project: [ 
-            "CalculatororLite/CalculatorLite.csproj", 
-          "PasswordGenerator/PasswordGenerator.csproj" 
-        ]
-
-       name: ${{ format('Restore and Build {0}', matrix.project) }}
-  run: |
-    dotnet restore ./${{ split(matrix.project, '/')[0] }}/
-    dotnet build --configuration Release --no-restore ./${{ split(matrix.project, '/')[0] }}/ --nologo
+          dotnet-version: '10.0.x'       
+          name: Restore and Build ${{ matrix.project }}
+          run: |  
+           dotnet restore ${{ matrix.project }}
+            dotnet build ${{ matrix.project }} --configuration Release --no-restore --nologo
