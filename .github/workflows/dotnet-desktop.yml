@@ -17,8 +17,12 @@ jobs:
           dotnet-version: '10.0.x'
           include-prerelease: true
 
-      strategy:
-        project: [ "CalculatororLite/CalculatororLite/CalculatororLite.csproj", "PasswordGenerator/PasswordGenerator/PasswordGenerator.csproj" ] 
+      strategy: 
+        matrix: 
+        project: [ 
+            "CalculatororLite/CalculatorLite.csproj", 
+          "PasswordGenerator/PasswordGenerator.csproj" 
+        ]
 
        name: ${{ format('Restore and Build {0}', matrix.project) }}
   run: |
