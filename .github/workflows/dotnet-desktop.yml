@@ -12,7 +12,8 @@ jobs:
      matrix: 
       project: [ 
             "CalculatorLite/CalculatorLite.csproj", 
-          "PasswordGenerator/PasswordGenerator.csproj" 
+          "PasswordGenerator/PasswordGenerator.csproj",
+          "GameOfFunnyColors.csproj"
         ]   
 
     steps:
