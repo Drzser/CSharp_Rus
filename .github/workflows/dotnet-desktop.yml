@@ -13,7 +13,7 @@ jobs:
       project: [ 
             "CalculatorLite/CalculatorLite.csproj", 
           "PasswordGenerator/PasswordGenerator.csproj",
-          "GameOfFunnyColors.csproj"
+          "GameOfFunnyColors/GameOfFunnyColors.csproj"
         ]   
 
     steps:
