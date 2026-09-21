@@ -1,7 +1,7 @@
 ﻿using System;
 
 
-namespace Test
+namespace GameOfFunnyColors
 {
     class Program
     {
