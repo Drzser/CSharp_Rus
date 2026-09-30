@@ -1,0 +1,35 @@
+## Visual Studio
+.vs/
+.vscode/
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+## Build results
+[Dd]ebug/
+[Dd]ebugPublic/
+[Rr]elease/
+[Rr]eleases/
+x66/
+x86/
+bld/
+[Bb]in/
+[Oo]bj/
+[Ll]og/
+
+## Общие файлы IDE
+*.vs/
+*.vscode/
+.idea/
+
+## Временные файлы
+*~
+*.tmp
+*.swp
+*.swo
+*.swn
+
+## Пакеты NuGet
+packages/
+*.nupkg
