@@ -1,5 +1,4 @@
-﻿using System;
-using System.Security.Cryptography;
+using System;
 
 namespace PasswordGenerator
 {
@@ -9,11 +8,19 @@ namespace PasswordGenerator
         {
             Console.Write("Введите желаемую длину пароля (минимум 8 символов): ");
 
-            if (int.TryParse(Console.ReadLine(), out int length))
+            if (!int.TryParse(Console.ReadLine(), out int length))
             {
-                var baseGenerator = new PasswordGenerator();
-                var secureGenerator = new SecurePasswordGenerator(baseGenerator);
+                Console.WriteLine("Некорректный ввод. Пожалуйста, введите целое число.");
+                return;
+            }
 
+            var baseGenerator = new PasswordGenerator();
+            var secureGenerator = new SecurePasswordGenerator(baseGenerator);
+
+            string? answer;
+
+            do
+            {
                 try
                 {
                     string password = secureGenerator.GeneratePassword(length);
@@ -22,24 +29,17 @@ namespace PasswordGenerator
                 catch (Exception ex)
                 {
                     Console.WriteLine($"Ошибка: {ex.Message}");
+                    // При ошибке сразу выходим, чтобы не зациклиться на ошибке
+                    break;
                 }
-            }
-            else
-            {
-                Console.WriteLine("Некорректный ввод. Пожалуйста, введите целое число.");
-            }
+
+                Console.Write("Хотите сгенерировать ещё один пароль той же длины? (да/д): ");
+                answer = Console.ReadLine()?.Trim().ToLower();
+
+            } while (answer is "да" or "д");
 
             Console.WriteLine("\nНажмите любую клавишу для выхода...");
             Console.ReadKey();
         }
     }
 }
-
-
-
-
-
-
-
-
-
